@@ -40,10 +40,17 @@ if not os.path.exists(db_path):
     st.success("🎉 Database created successfully!")
 
 # --- SIDEBAR INFO ---
+# --- SIDEBAR INFO ---
 with st.sidebar:
-    st.markdown("### Tables Included:")
-    for name, file in csv_mapping.items():
-        st.markdown(f"- **{name}** ({file})")
+    st.markdown("### Tables Included with Headers:")
+    for table_key, filename in csv_mapping.items():
+        st.markdown(f"**{table_key}** ({filename})")
+        try:
+            df = pd.read_csv(filename, nrows=0)  # read only headers
+            headers = df.columns.tolist()
+            st.markdown(", ".join(headers))
+        except Exception as e:
+            st.error(f"❌ Error reading {filename}: {e}")
 
 # --- SQL QUERY INTERFACE ---
 st.markdown("### Run SQL Query")
