@@ -5,8 +5,8 @@ import sqlite3
 import os
 
 # --- CONFIGURATION ---
-st.set_page_config(page_title="Drug Repurposing DB Explorer", layout="wide")
-st.title("🧬 Drug Repurposing Explorer for PCOS and Endometrial Cancer")
+st.set_page_config(page_title="Drug Repurposing Database Explorer", layout="wide")
+st.title("Drug Repurposing Database")
 
 # --- FILE MAPPING ---
 xls_mapping = {
