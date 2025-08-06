@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -9,13 +8,13 @@ st.set_page_config(page_title="Drug Repurposing Database Explorer", layout="wide
 st.title("Drug Repurposing Database")
 
 # --- FILE MAPPING ---
-xls_mapping = {
-    "geo_pcos": "pone.0271380.s001.xls",
-    "geo_endometrial": "pone.0271380.s002.xls",
-    "ppi_network": "pone.0271380.s003.xls",
-    "tf_regulators": "pone.0271380.s004.xls",
-    "mirna_regulators": "pone.0271380.s005.xls",
-    "drug_candidates": "pone.0271380.s006.xls"
+csv_mapping = {
+    "geo_pcos": "pone.0271380.s001.csv",
+    "geo_endometrial": "pone.0271380.s002.csv",
+    "ppi_network": "pone.0271380.s003.csv",
+    "tf_regulators": "pone.0271380.s004.csv",
+    "mirna_regulators": "pone.0271380.s005.csv",
+    "drug_candidates": "pone.0271380.s006.csv"
 }
 
 db_path = "drug_repurposing.db"
@@ -23,12 +22,12 @@ loaded_tables = []
 
 # --- DATABASE CREATION ---
 if not os.path.exists(db_path):
-    st.info("🔧 Creating local database from Excel files...")
+    st.info("🔧 Creating local database from CSV files...")
     conn = sqlite3.connect(db_path)
 
-    for table_key, filename in xls_mapping.items():
+    for table_key, filename in csv_mapping.items():
         try:
-            df = pd.read_excel(filename, engine='xlrd')
+            df = pd.read_csv(filename)
             table_name = table_key.lower()
             df.to_sql(table_name, conn, if_exists="replace", index=False)
             loaded_tables.append((filename, table_name))
@@ -43,7 +42,7 @@ if not os.path.exists(db_path):
 # --- SIDEBAR INFO ---
 with st.sidebar:
     st.markdown("### Tables Included:")
-    for name, file in xls_mapping.items():
+    for name, file in csv_mapping.items():
         st.markdown(f"- **{name}** ({file})")
 
 # --- SQL QUERY INTERFACE ---
