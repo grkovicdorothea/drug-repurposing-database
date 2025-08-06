@@ -5,7 +5,7 @@ import os
 
 # --- CONFIGURATION ---
 st.set_page_config(page_title="Drug Repurposing Database Explorer", layout="wide")
-st.title("Drug Repurposing Database")
+st.title("Drug Repurposing for Women's Health Database")
 
 # --- FILE MAPPING ---
 csv_mapping = {
