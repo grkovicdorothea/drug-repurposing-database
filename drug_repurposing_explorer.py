@@ -28,7 +28,7 @@ if not os.path.exists(db_path):
 
     for table_key, filename in xls_mapping.items():
         try:
-            df = pd.read_excel(filename)
+            df = pd.read_excel(filename, engine='xlrd')
             table_name = table_key.lower()
             df.to_sql(table_name, conn, if_exists="replace", index=False)
             loaded_tables.append((filename, table_name))
@@ -42,12 +42,12 @@ if not os.path.exists(db_path):
 
 # --- SIDEBAR INFO ---
 with st.sidebar:
-    st.markdown("### 📊 Tables Included:")
+    st.markdown("### Tables Included:")
     for name, file in xls_mapping.items():
         st.markdown(f"- **{name}** ({file})")
 
 # --- SQL QUERY INTERFACE ---
-st.markdown("### 💻 Run SQL Query")
+st.markdown("### Run SQL Query")
 
 query = st.text_area(
     "Enter your SQL query below:",
