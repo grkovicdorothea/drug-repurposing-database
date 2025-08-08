@@ -14,7 +14,8 @@ csv_mapping = {
     "ppi_network": "pone.0271380.s003.csv",
     "tf_regulators": "pone.0271380.s004.csv",
     "mirna_regulators": "pone.0271380.s005.csv",
-    "drug_candidates": "pone.0271380.s006.csv"
+    "drug_candidates": "pone.0271380.s006.csv",
+    "biomarkers": "biomarkers.csv"  # Added biomarkers.csv
 }
 
 db_path = "drug_repurposing.db"
@@ -40,15 +41,16 @@ if not os.path.exists(db_path):
     st.success("🎉 Database created successfully!")
 
 # --- SIDEBAR INFO ---
-# --- SIDEBAR INFO ---
 with st.sidebar:
-    st.markdown("### Tables Included with Headers:")
+    st.markdown("### Tables & Columns (click to copy)")
     for table_key, filename in csv_mapping.items():
         st.markdown(f"**{table_key}** ({filename})")
         try:
             df = pd.read_csv(filename, nrows=0)  # read only headers
             headers = df.columns.tolist()
-            st.markdown(", ".join(headers))
+            for col in headers:
+                # Clickable element that copies column name
+                st.code(col, language="sql")
         except Exception as e:
             st.error(f"❌ Error reading {filename}: {e}")
 
